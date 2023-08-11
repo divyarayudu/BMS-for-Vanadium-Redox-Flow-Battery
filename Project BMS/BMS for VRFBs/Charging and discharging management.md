@@ -1,0 +1,2 @@
+- Regulates State Of Charge (SOC) range and number of cycles and work harmoniously with Energy Management System by controlling the input current, I/O power limitations etc
+- Since the scale of this project is Laboratory scale, the Energy Management System is out out of the scope of this project.

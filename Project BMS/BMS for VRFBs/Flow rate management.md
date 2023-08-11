@@ -1,0 +1,3 @@
+Adjusting the flow rate by controlling the pump speed. The main objective is to control the dynamic flow rate to minimize internal and external losses resulting from concentration overpotential and pump loss under varying load power output conditions. 
+Another objective is, Flow rate management receives commands from Temperature Management 
+System to optimize electrolyte flow rate to stabilize and manage electrolyte temperature. 
