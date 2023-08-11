@@ -1,0 +1,67 @@
+#boot.py
+
+import esp
+
+def connect():
+    import network
+    sta_if = network.WLAN(network.STA_IF)
+    if not sta_if.isconnected():
+        sta_if.active(True)
+        sta_if.connect(WIFI_NAME, WIFI_PASS)
+        while not sta_if.isconnected():
+            pass
+    print('network config:', sta_if.ifconfig())
+
+WIFI_NAME = 'Divya_cpe'
+WIFI_PASS = 'divya_cpe'
+
+connect()
+
+#main.py
+from umqtt.simple import MQTTClient
+import machine
+import time
+from machine import UART
+from machine import Pin
+from utime import sleep
+from machine import RTC
+
+##Testing Communication - "I Have Booted Up" on boot
+
+CLIENT_NAME = 'ESP32'
+BROKER_ADDR = '192.168.171.134'
+mqttc = MQTTClient(CLIENT_NAME, BROKER_ADDR, keepalive=60)
+mqttc.connect()
+
+num= 4
+
+for i in range(num):
+    mqttc.publish(b'hello', b'I have booted up')
+    
+uart = UART(1, baudrate=9600, tx=1, rx=3, timeout=5)
+
+uart.init(baudrate=9600, bits=8, parity=0, stop=1, timeout=5)
+
+uart.write('SYST:REM\n')
+
+print("Serial open")
+
+uart.write('*IDN?\n')
+text = uart.readline()
+print(text)
+
+for i in range(10):
+    uart.write('MEAS:VOLT:DC? 10,0.003\n')
+    text = uart.readline()
+    current_time = RTC().datetime()
+    print("{:02d}-{:02d}-{:02d} {:02d}:{:02d}:{:02d}.{:03d}".format(current_time[0], current_time[1], current_time[2], current_time[4], current_time[5], current_time[6], current_time[7]), text)
+    CLIENT_NAME = 'ESP32'
+    BROKER_ADDR = '192.168.104.134'
+    mqttc = MQTTClient(CLIENT_NAME, BROKER_ADDR, keepalive=60)
+    mqttc.connect()
+    mqttc.publish("voltage", str(text))
+    mqttc.disconnect()
+    sleep(10)
+uart.deinit()
+
+print('Serial closed')
