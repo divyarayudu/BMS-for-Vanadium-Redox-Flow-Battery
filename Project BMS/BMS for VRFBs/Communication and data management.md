@@ -1,0 +1,4 @@
+- Locally measured parameters like voltage current and ion concentration
+- Sensors, communication links and proper data management strategies are essential
+- Database of historical values allows offline battery model development based on data intensive techniques approaches.
+- Communication between all the components of the system is the core of the system operation.

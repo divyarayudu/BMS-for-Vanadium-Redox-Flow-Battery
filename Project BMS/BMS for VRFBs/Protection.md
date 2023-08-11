@@ -1,0 +1,1 @@
+- Operation mode detection, setting fault criteria, temperature management, overheating protection, fault detection, predicting system states, isolation fault detection, 
