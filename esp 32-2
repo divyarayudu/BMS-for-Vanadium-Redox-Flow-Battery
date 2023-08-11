@@ -1,0 +1,46 @@
+#boot.py
+import esp
+
+def connect():
+    import network
+    sta_if = network.WLAN(network.STA_IF)
+    if not sta_if.isconnected():
+        sta_if.active(True)
+        sta_if.connect(WIFI_NAME, WIFI_PASS)
+        while not sta_if.isconnected():
+            pass
+    print('network config:', sta_if.ifconfig())
+
+WIFI_NAME = 'Divya_cpe'
+WIFI_PASS = 'divya_cpe'
+
+connect()
+
+#main.py
+
+from machine import Pin
+import time
+
+# Pin number for the LED
+led_pin = 13
+led = Pin(led_pin, Pin.OUT)
+
+# Function to check the battery SOC
+def check_battery_soc():
+    # Implement your logic to check the SOC of the battery
+    # You may need to use appropriate ADC pins or communication interfaces to measure the battery voltage and calculate the SOC
+    
+    # Example condition: If SOC is 0 or 100, return True; otherwise, return False
+    soc = 0  # Replace with your actual SOC value
+    if soc == 0 or soc == 100:
+        return True
+    else:
+        return False
+
+# Blink the LED if SOC is 0 or 100
+while True:
+    if check_battery_soc():
+        led.on()
+        time.sleep(0.5)
+        led.off()
+        time.sleep(0.5)
